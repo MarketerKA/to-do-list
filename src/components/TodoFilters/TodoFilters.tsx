@@ -1,5 +1,6 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo } from 'react';
 import { TodoFilter } from '../../types';
+import { useFilters } from '../../hooks/useFilters';
 import './TodoFilters.scss';
 
 type TodoFiltersProps = {
@@ -7,35 +8,20 @@ type TodoFiltersProps = {
   onFilterChange: (filter: TodoFilter) => void;
 }
 
-// Возможные значения фильтров
-const FILTERS: TodoFilter[] = ['all', 'active', 'completed'];
-
 /**
  * Компонент фильтрации задач
- * Отображает кнопки для фильтрации задач по статусу выполнения
  */
 const TodoFilters = memo(({ filter, onFilterChange }: TodoFiltersProps) => {
-  // Функция для преобразования первой буквы в заглавную
-  const capitalizeFirstLetter = useCallback((string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }, []);
-
-  // Создаем набор обработчиков для кнопок фильтрации
-  // Мемоизируем для предотвращения ненужных перерасчетов
-  const filterHandlers = useMemo(() => {
-    return FILTERS.map(filterOption => ({
-      filter: filterOption,
-      label: capitalizeFirstLetter(filterOption),
-      isActive: filter === filterOption,
-      onClick: () => onFilterChange(filterOption)
-    }));
-  }, [filter, onFilterChange, capitalizeFirstLetter]);
+  const { filterButtons } = useFilters({ 
+    currentFilter: filter, 
+    onFilterChange 
+  });
 
   return (
     <div className="todo-filters">
       <div className="filter-group">
         {/* Отображаем кнопки для каждого фильтра */}
-        {filterHandlers.map(({ filter, label, isActive, onClick }) => (
+        {filterButtons.map(({ filter, label, isActive, onClick }) => (
           <button
             key={filter}
             className={isActive ? 'active' : ''}

@@ -1,4 +1,5 @@
-import { useState, useCallback, memo } from 'react';
+import { memo } from 'react';
+import { useTodoForm } from '../../hooks/useTodoForm';
 import './TodoForm.scss';
 
 type TodoFormProps = {
@@ -7,31 +8,9 @@ type TodoFormProps = {
 
 /**
  * Компонент формы для добавления новых задач
- * Оптимизирован с помощью memo для предотвращения лишних перерисовок
  */
 const TodoForm = memo(({ onAddTodo }: TodoFormProps) => {
-  // Состояние для текстового поля
-  const [text, setText] = useState('');
-
-  // Обработчик отправки формы
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmedText = text.trim();
-    if (trimmedText) {
-      onAddTodo(trimmedText);
-      setText(''); // Очищаем поле после добавления
-    }
-  }, [text, onAddTodo]);
-
-  // Обработчик изменения текстового поля
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
-  }, []);
-
-  // Обработчик очистки текстового поля
-  const clearText = useCallback(() => {
-    setText('');
-  }, []);
+  const { text, isValid, handleSubmit, handleChange, clearText } = useTodoForm({ onAddTodo });
 
   return (
     <form className="todo-form" onSubmit={handleSubmit}>
@@ -56,7 +35,7 @@ const TodoForm = memo(({ onAddTodo }: TodoFormProps) => {
         )}
       </div>
       {/* Кнопка добавления задачи (неактивна, если поле пустое) */}
-      <button type="submit" disabled={!text.trim()}>Add</button>
+      <button type="submit" disabled={!isValid}>Add</button>
     </form>
   );
 });
