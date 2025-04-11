@@ -74,7 +74,13 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }: TodoItemProps) => {
           </div>
           <div className="actions">
             <button onClick={handleEdit} disabled={todo.completed}>Edit</button>
-            <button onClick={() => onDelete(todo.id)}>Delete</button>
+            <button 
+              className="delete-button" 
+              onClick={() => onDelete(todo.id)}
+              aria-label="Delete task"
+            >
+              ✕
+            </button>
           </div>
         </>
       )}
