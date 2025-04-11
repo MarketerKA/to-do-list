@@ -2,6 +2,8 @@
 
 A simple, elegant, and functional Todo List application built with React, TypeScript, and Vite. This application allows you to manage your tasks with features like adding, editing, deleting, filtering, and sorting tasks.
 
+**Live Demo:** [https://MarketerKA.github.io/to-do-list/](https://MarketerKA.github.io/to-do-list/)
+
 ## Screenshots
 
 <div align="center">
@@ -40,8 +42,8 @@ A simple, elegant, and functional Todo List application built with React, TypeSc
 
 1. Clone the repository:
    ```
-   git clone https://github.com/MarketerKA/todo-list.git
-   cd todo-list
+   git clone https://github.com/MarketerKA/to-do-list.git
+   cd to-do-list
    ```
 
 2. Install dependencies:
@@ -67,7 +69,7 @@ A simple, elegant, and functional Todo List application built with React, TypeSc
 ## Project Structure
 
 ```
-todo-list/
+to-do-list/
 ├── public/
 ├── src/
 │   ├── components/
