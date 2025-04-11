@@ -1,0 +1,72 @@
+// Variables
+$primary-color: #0066ff;
+$secondary-color: #f8f9fa;
+$background-color: #f0f4f8;
+$text-color: #212529;
+$border-color: #dee2e6;
+$accent-color: #6c757d;
+
+// Breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 992px;
+
+.todo-filters {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
+  border: 1px solid $border-color;
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    span {
+      font-weight: 500;
+      color: $accent-color;
+      margin-right: 5px;
+    }
+
+    button {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      background-color: $secondary-color;
+      color: $accent-color;
+      border-radius: 16px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+
+      &.active {
+        background-color: $primary-color;
+        color: white;
+        box-shadow: 0 1px 3px rgba($primary-color, 0.2);
+      }
+
+      &:hover:not(.active) {
+        background-color: darken($secondary-color, 5%);
+        border-color: $border-color;
+      }
+    }
+  }
+
+  @media (max-width: $tablet) {
+    padding: 12px;
+
+    .filter-group {
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+      
+      span {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 8px;
+      }
+    }
+  }
+} 

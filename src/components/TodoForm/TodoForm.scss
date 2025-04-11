@@ -1,0 +1,121 @@
+// Variables
+$primary-color: #0066ff;
+$secondary-color: #f8f9fa;
+$background-color: #f0f4f8;
+$text-color: #212529;
+$border-color: #dee2e6;
+$accent-color: #6c757d;
+
+// Breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 992px;
+
+.todo-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  border: 1px solid $border-color;
+
+  .form-group {
+    display: flex;
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+
+    input {
+      flex: 1;
+      padding: 12px 15px;
+      padding-right: 35px;
+      border: 1px solid $border-color;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background-color: $secondary-color;
+      color: $text-color;
+      
+      &::placeholder {
+        color: $accent-color;
+        opacity: 0.7;
+      }
+      
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        outline: none;
+        background-color: white;
+        color: $text-color;
+      }
+    }
+    
+    .clear-button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      font-size: 12px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $accent-color;
+      opacity: 0.6;
+      border-radius: 50%;
+      min-width: auto;
+      
+      &:hover {
+        opacity: 1;
+        background-color: $accent-color;
+        transform: translateY(-50%);
+        box-shadow: none;
+      }
+    }
+  }
+
+  button {
+    background-color: $primary-color;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.2s;
+    min-width: 80px;
+    
+    &:hover {
+      background-color: darken($primary-color, 10%);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: $mobile) {
+    flex-direction: column;
+    padding: 15px;
+
+    .form-group {
+      width: 100%;
+      flex-direction: column;
+      gap: 10px;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+} 
