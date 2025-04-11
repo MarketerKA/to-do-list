@@ -1,54 +1,117 @@
-# React + TypeScript + Vite
+# Todo List Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple, elegant, and functional Todo List application built with React, TypeScript, and Vite. This application allows you to manage your tasks with features like adding, editing, deleting, filtering, and sorting tasks.
 
-Currently, two official plugins are available:
+![Todo List App Screenshot](https://via.placeholder.com/800x400?text=Todo+List+App)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- ✅ Add new tasks
+- ✏️ Edit existing tasks
+- 🗑️ Delete tasks
+- ✓ Mark tasks as completed
+- 🔍 Filter tasks (All, Active, Completed)
+- 📅 View task creation date
+- 💾 Persistent storage (tasks are saved in localStorage)
+- 📱 Responsive design
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technologies Used
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- React 18
+- TypeScript
+- Vite
+- SCSS for styling
+- LocalStorage for data persistence
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/todo-list.git
+   cd todo-list
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+   or
+   ```
+   yarn
+   ```
+
+3. Run the development server:
+   ```
+   npm run dev
+   ```
+   or
+   ```
+   yarn dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+## Project Structure
+
+```
+todo-list/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── TodoList/
+│   │   ├── TodoItem/
+│   │   ├── TodoForm/
+│   │   └── TodoFilters/
+│   ├── types/
+│   ├── App.tsx
+│   └── main.tsx
+├── package.json
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## How It Works
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **TodoList**: Main component that manages the state and renders other components
+- **TodoForm**: Allows adding new tasks
+- **TodoItem**: Displays a single task with options to edit, delete, or mark as completed
+- **TodoFilters**: Provides filtering options for tasks
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Local Storage
+
+The application utilizes browser's localStorage to persist your tasks between sessions. All tasks and filter preferences are automatically saved when you:
+
+- Add a new task
+- Edit a task
+- Delete a task
+- Mark a task as completed
+- Change filter settings
+
+## Future Enhancements
+
+- Task priorities
+- Due dates
+- Categories/tags for tasks
+- Dark/light theme toggle
+- User accounts with cloud sync
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- This project was bootstrapped with [Vite](https://vitejs.dev/).
+- Built with [React](https://reactjs.org/) and [TypeScript](https://www.typescriptlang.org/).
+
+---
+
+## Vite Configuration Information
+
+This project uses Vite as the build tool. For more information on customizing the configuration, please refer to the [Vite documentation](https://vitejs.dev/config/).
