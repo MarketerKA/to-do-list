@@ -2,7 +2,7 @@
 
 A simple, elegant, and functional Todo List application built with React, TypeScript, and Vite. This application allows you to manage your tasks with features like adding, editing, deleting, filtering, and sorting tasks.
 
-![Todo List App Screenshot](https://via.placeholder.com/800x400?text=Todo+List+App)
+![Todo List App Screenshot](image.png)
 
 ## Features
 
