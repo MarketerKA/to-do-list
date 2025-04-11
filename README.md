@@ -40,7 +40,7 @@ A simple, elegant, and functional Todo List application built with React, TypeSc
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/todo-list.git
+   git clone https://github.com/MarketerKA/todo-list.git
    cd todo-list
    ```
 
