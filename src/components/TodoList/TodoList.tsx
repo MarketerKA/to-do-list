@@ -5,7 +5,7 @@ import TodoForm from '../TodoForm/TodoForm';
 import TodoFilters from '../TodoFilters/TodoFilters';
 import './TodoList.scss';
 
-// Storage keys - using a single prefix for consistency
+// Ключи для хранения данных в localStorage
 const STORAGE_PREFIX = 'todo-app-';
 const STORAGE_KEYS = {
   TODOS: `${STORAGE_PREFIX}todos`,
@@ -13,21 +13,26 @@ const STORAGE_KEYS = {
   SORT: `${STORAGE_PREFIX}sort`
 };
 
+/**
+ * Главный компонент для управления задачами
+ * Содержит логику создания, редактирования и фильтрации задач
+ */
 const TodoList = () => {
+  // Состояние приложения
   const [todos, setTodos] = useState<TodoItemType[]>([]);
   const [filter, setFilter] = useState<TodoFilter>('all');
   const [sort, setSort] = useState<TodoSort>('date');
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load data on first render
+  // Загрузка данных из localStorage при первом рендере
   useEffect(() => {
     try {
-      // Get values from localStorage or use defaults
+      // Получаем сохраненные значения или используем значения по умолчанию
       const savedTodos = JSON.parse(localStorage.getItem(STORAGE_KEYS.TODOS) || '[]');
       const savedFilter = localStorage.getItem(STORAGE_KEYS.FILTER) as TodoFilter || 'all';
       const savedSort = localStorage.getItem(STORAGE_KEYS.SORT) as TodoSort || 'date';
       
-      // Convert dates back to Date objects
+      // Конвертируем строки дат обратно в объекты Date
       if (savedTodos.length) {
         setTodos(savedTodos.map((todo: any) => ({
           ...todo,
@@ -44,12 +49,12 @@ const TodoList = () => {
     setIsLoaded(true);
   }, []);
 
-  // Save data when it changes
+  // Сохранение данных при их изменении
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded) return; // Пропускаем первый рендер
     
     try {
-      // Convert dates to strings for storage
+      // Конвертируем объекты Date в строки для хранения
       const todosToSave = todos.map(todo => ({
         ...todo,
         createdAt: todo.createdAt.toISOString()
@@ -63,7 +68,9 @@ const TodoList = () => {
     }
   }, [todos, filter, sort, isLoaded]);
 
-  // CRUD operations with useCallback
+  // CRUD операции с использованием useCallback для оптимизации
+
+  // Добавление новой задачи
   const addTodo = useCallback((text: string) => {
     setTodos(prevTodos => [
       ...prevTodos, 
@@ -76,44 +83,53 @@ const TodoList = () => {
     ]);
   }, []);
 
+  // Переключение статуса выполнения задачи
   const toggleTodo = useCallback((id: string) => {
     setTodos(prevTodos => prevTodos.map(todo => 
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     ));
   }, []);
 
+  // Удаление задачи
   const deleteTodo = useCallback((id: string) => {
     setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
   }, []);
 
+  // Редактирование текста задачи
   const editTodo = useCallback((id: string, text: string) => {
     setTodos(prevTodos => prevTodos.map(todo => 
       todo.id === id ? { ...todo, text } : todo
     ));
   }, []);
 
-  // Filter change handler
+  // Обработчик изменения фильтра
   const handleFilterChange = useCallback((newFilter: TodoFilter) => {
     setFilter(newFilter);
   }, []);
 
-  // Filter and sort todos with useMemo
+  // Фильтрация и сортировка задач с использованием useMemo для кэширования результатов
   const filteredAndSortedTodos = useMemo(() => {
+    // Фильтрация по статусу (все, активные, выполненные)
     return [...todos]
       .filter(todo => {
         if (filter === 'all') return true;
         return filter === 'completed' ? todo.completed : !todo.completed;
       })
+      // Сортировка по дате создания (от новых к старым)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  }, [todos, filter]);
+  }, [todos, filter]); // Пересчитываем только при изменении задач или фильтра
 
   return (
     <div className="todo-list-container">
       <h1>Tasks</h1>
       
+      {/* Форма для добавления новых задач */}
       <TodoForm onAddTodo={addTodo} />
+      
+      {/* Фильтры для переключения между статусами задач */}
       <TodoFilters filter={filter} onFilterChange={handleFilterChange} />
       
+      {/* Список задач */}
       <div className="todo-list">
         {filteredAndSortedTodos.length > 0 ? (
           filteredAndSortedTodos.map(todo => (

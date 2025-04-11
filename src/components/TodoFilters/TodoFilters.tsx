@@ -7,15 +7,21 @@ type TodoFiltersProps = {
   onFilterChange: (filter: TodoFilter) => void;
 }
 
+// Возможные значения фильтров
 const FILTERS: TodoFilter[] = ['all', 'active', 'completed'];
 
+/**
+ * Компонент фильтрации задач
+ * Отображает кнопки для фильтрации задач по статусу выполнения
+ */
 const TodoFilters = memo(({ filter, onFilterChange }: TodoFiltersProps) => {
-  // Мемоизируем функцию капитализации фильтра
+  // Функция для преобразования первой буквы в заглавную
   const capitalizeFirstLetter = useCallback((string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }, []);
 
-  // Создаем обработчики для каждого фильтра
+  // Создаем набор обработчиков для кнопок фильтрации
+  // Мемоизируем для предотвращения ненужных перерасчетов
   const filterHandlers = useMemo(() => {
     return FILTERS.map(filterOption => ({
       filter: filterOption,
@@ -28,6 +34,7 @@ const TodoFilters = memo(({ filter, onFilterChange }: TodoFiltersProps) => {
   return (
     <div className="todo-filters">
       <div className="filter-group">
+        {/* Отображаем кнопки для каждого фильтра */}
         {filterHandlers.map(({ filter, label, isActive, onClick }) => (
           <button
             key={filter}
@@ -42,6 +49,7 @@ const TodoFilters = memo(({ filter, onFilterChange }: TodoFiltersProps) => {
   );
 });
 
+// Имя для отладки в React DevTools
 TodoFilters.displayName = 'TodoFilters';
 
 export default TodoFilters; 
