@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { TodoItem as TodoItemType, TodoFilter, TodoSort } from '../../types';
 import TodoItemComponent from '../TodoItem/TodoItem';
 import TodoForm from '../TodoForm/TodoForm';
@@ -63,10 +63,10 @@ const TodoList = () => {
     }
   }, [todos, filter, sort, isLoaded]);
 
-  // CRUD operations
-  const addTodo = (text: string) => {
-    setTodos([
-      ...todos, 
+  // CRUD operations with useCallback
+  const addTodo = useCallback((text: string) => {
+    setTodos(prevTodos => [
+      ...prevTodos, 
       {
         id: Date.now().toString(),
         text,
@@ -74,38 +74,45 @@ const TodoList = () => {
         createdAt: new Date()
       }
     ]);
-  };
+  }, []);
 
-  const toggleTodo = (id: string) => {
-    setTodos(todos.map(todo => 
+  const toggleTodo = useCallback((id: string) => {
+    setTodos(prevTodos => prevTodos.map(todo => 
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     ));
-  };
+  }, []);
 
-  const deleteTodo = (id: string) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
+  const deleteTodo = useCallback((id: string) => {
+    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+  }, []);
 
-  const editTodo = (id: string, text: string) => {
-    setTodos(todos.map(todo => 
+  const editTodo = useCallback((id: string, text: string) => {
+    setTodos(prevTodos => prevTodos.map(todo => 
       todo.id === id ? { ...todo, text } : todo
     ));
-  };
+  }, []);
 
-  // Filter and sort todos
-  const filteredAndSortedTodos = [...todos]
-    .filter(todo => {
-      if (filter === 'all') return true;
-      return filter === 'completed' ? todo.completed : !todo.completed;
-    })
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  // Filter change handler
+  const handleFilterChange = useCallback((newFilter: TodoFilter) => {
+    setFilter(newFilter);
+  }, []);
+
+  // Filter and sort todos with useMemo
+  const filteredAndSortedTodos = useMemo(() => {
+    return [...todos]
+      .filter(todo => {
+        if (filter === 'all') return true;
+        return filter === 'completed' ? todo.completed : !todo.completed;
+      })
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }, [todos, filter]);
 
   return (
     <div className="todo-list-container">
       <h1>Tasks</h1>
       
       <TodoForm onAddTodo={addTodo} />
-      <TodoFilters filter={filter} onFilterChange={setFilter} />
+      <TodoFilters filter={filter} onFilterChange={handleFilterChange} />
       
       <div className="todo-list">
         {filteredAndSortedTodos.length > 0 ? (

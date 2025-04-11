@@ -1,21 +1,29 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import './TodoForm.scss';
 
 type TodoFormProps = {
   onAddTodo: (text: string) => void;
 }
 
-const TodoForm = ({ onAddTodo }: TodoFormProps) => {
+const TodoForm = memo(({ onAddTodo }: TodoFormProps) => {
   const [text, setText] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     const trimmedText = text.trim();
     if (trimmedText) {
       onAddTodo(trimmedText);
       setText('');
     }
-  };
+  }, [text, onAddTodo]);
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  }, []);
+
+  const clearText = useCallback(() => {
+    setText('');
+  }, []);
 
   return (
     <form className="todo-form" onSubmit={handleSubmit}>
@@ -24,13 +32,13 @@ const TodoForm = ({ onAddTodo }: TodoFormProps) => {
           type="text"
           placeholder="Add a new task..."
           value={text}
-          onChange={e => setText(e.target.value)}
+          onChange={handleChange}
         />
         {text && (
           <button 
             type="button" 
             className="clear-button"
-            onClick={() => setText('')}
+            onClick={clearText}
             aria-label="Clear input"
           >
             ✕
@@ -40,6 +48,8 @@ const TodoForm = ({ onAddTodo }: TodoFormProps) => {
       <button type="submit" disabled={!text.trim()}>Add</button>
     </form>
   );
-};
+});
+
+TodoForm.displayName = 'TodoForm';
 
 export default TodoForm; 
